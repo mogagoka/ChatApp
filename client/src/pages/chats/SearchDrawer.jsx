@@ -9,7 +9,7 @@ import ChatsLoader from "../../loaders/ChatsLoader";
 const SearchDrawer = ({showSearch,searchFun}) => {
     // STATE VARIABLES //
     const [loader,setLoader] = useState(false)
-    const {user,setSelectedChat,chats,setChats} = ChatState()
+    const {user,setSelectedChat,chats,setChats,setMessages} = ChatState()
     const [search,setSearch] = useState('')
     const [data,setData] = useState([])
 
@@ -60,31 +60,49 @@ const SearchDrawer = ({showSearch,searchFun}) => {
         }
     }
 
+    // FUNCTION TO FETCH ALL MESSAGES IN A PARTICULAR CHAT
+      const fetchCurrentChats = async (id) => {
+        try {
+          const URL = `${process.env.REACT_APP_SERVER_PORT}/api/messages/${id}`
+          const headers = { 
+              'Authorization': `Bearer ${user.token}` };
+          var response = await fetch(URL, {
+              method:"GET",
+              headers:headers
+          })
+          response = await response.json()
+          setMessages(() => response)
+        } catch (error) {
+            toast.error(error.message,toastTheme)
+        }
+      }
+
     // FUNCTION TO HANDLE CLICK ON SEARCHED USER //
     const accessChat = async (id,name) =>{
         const chat = await fetchChat(id,name)
+        await fetchCurrentChats(chat._id)
         setSelectedChat(chat)
         if (!chats.find((c) => c._id === chat._id)) setChats([chat, ...chats])
         searchFun()
     }
     return (
-        <div className={`${showSearch?"flex":"hidden"} flex-col h-[100%] w-[400px] absolute left-0 top-0 bg-[#116D6E] z-10 text-white`}>
-                <div className='flex justify-between items-center w-[90%] border-black my-[2%] mx-auto px-[1%]'>
-                    <h2 className='font-serif font-bold'>Search Users...</h2> 
-                   <button onClick={searchFun} className='text-black p-[2%]'>❌</button> 
-                </div>
-                <div className='w-[90%] border-black my-[2%] mx-auto text-black' >
-                    <Search placeholder="Search a user..." handleSearch={handleSearch} handleClick={() => {setLoader(true)}} handleChange={(e) => setSearch(e.target.value)} value = {search}/>
-                </div>
+        <div className={`${showSearch?"flex":"hidden"} flex-col h-[100%] w-[400px] absolute left-0 top-0 bg-neutral-900 text-white z-10`}>
+            <div className='flex justify-between items-center w-[90%] my-[2%] mx-auto px-[1%]'>
+                <h2 className='font-serif font-bold border-b'>Search Users...</h2> 
+                <button onClick={searchFun} className='text-black p-[2%]'>❌</button> 
+            </div>
+            <div className='w-[90%] my-[2%] mx-auto border border-neutral-600 rounded-lg' >
+                <Search placeholder="Search a user..." handleSearch={handleSearch} handleClick={() => {setLoader(true)}} handleChange={(e) => setSearch(e.target.value)} value = {search}/>
+            </div>
 
-                {/* SEARCH RESULTS */}
-                <div className='text-black'>
-                    {loader?<ChatsLoader /> :data.map((value) =>(
-                        <button onClick={() => accessChat(value._id,value.name)}>
-                             <Chat name= {value.name} key={value._id} src={value.pic} subText={value.email}/>
-                        </button>
-                    )) }
-                </div>
+            {/* SEARCH RESULTS */}
+            <div className='w-full overflow-y-auto'>
+                {loader?<ChatsLoader /> :data.map((value,index) =>(
+                    <button key={index} onClick={() => accessChat(value._id,value.name)} className='flex w-full'>
+                            <Chat name= {value.name} key={value._id} src={value.pic} subText={value.email}/>
+                    </button>
+                )) }
+            </div>
         </div>
   )
 }

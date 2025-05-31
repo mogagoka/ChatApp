@@ -7,7 +7,7 @@ import ChatsLoader from '../../loaders/ChatsLoader';
 
 // VARIABLES FOR SOCKET CONNECTION //
 
-const ChatList = ({chatFun,setStart,clickedNotification,setClickedNotification}) => {
+const ChatList = ({chatFun,setStart}) => {
   const {chats,user,setChats,selectedChat,setSelectedChat,setMessages,notification,setNotification} = ChatState() //get the required states from context api // 
   const [loading,setLoading] = useState(true)
 
@@ -53,10 +53,7 @@ const fetchCurrentChats = async(id) => {
     setNotification(notification.filter((n) => n.chat._id !== chat._id))
 
     setStart(false)
-    setSelectedChat()
-    setTimeout(() => {
-      setSelectedChat(chat)
-    },1000)
+    setSelectedChat(chat)
     await fetchCurrentChats(chat._id)
     chatFun()
   }
@@ -75,23 +72,19 @@ const fetchCurrentChats = async(id) => {
   }
   
   useEffect(() =>{
-    if (clickedNotification){
-      clickChat(selectedChat)
-      setClickedNotification(false)
-    }
     fetchChats()
-  },[clickedNotification])
+  },[])
 
 
   return (
-    <div className='flex flex-col h-[65%] border-b-4 rounded-lg'>
+    <div className='flex flex-col h-[65%] rounded-lg bg-neutral-900'>
         {/* Label */}
-        <div className='flex justify-between items-center  mt-[5%]  py-[2%]'>
-            <h2 className='font-serif font-bold ml-[5%]  border-b-2'>Chats</h2>
+        <div className='flex justify-between items-center mb-2'>
+            <h2 className='font-sans font-bold ml-[5%]'>All Chats</h2>
         </div>
 
         {/*ALL CHATS OF LOGGED IN USER*/}
-        <div className='flex flex-col  overflow-y-auto'>
+        <div className='flex flex-col overflow-y-scroll gap-2'>
           {loading?<ChatsLoader/>:chats.map((chat,index) => (
             <button onClick = {() => clickChat(chat)} key={chat._id}>
               <Chat src={chat.users[1].name === user.name? chat.users[0].pic:chat.users[1].pic }

@@ -6,22 +6,18 @@
   background-image: url("https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=");
 }
 
-.chatsPage{
-  background-color: #232D3F;
-}
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 1px;
+  height:1px
 }
 
 ::-webkit-scrollbar-track {
   border-radius: 8px;
-  background-color: #e7e7e7;
-  border: 1px solid #cacaca;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color:#171717;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #116D6E;
+  border-radius: 10px;
+  background-color:#4B5563
+
 }

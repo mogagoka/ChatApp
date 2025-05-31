@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ const SignUp = () => {
 
    // FOR NAVIGATING BETWEEN DIFF ROUTES
    const navigate = useNavigate();
+   const [showPass,setShowPass] = useState(false)
 
    // VALIDATION SCHEMA FOR FORM IN FORMIK
    const getCharacterValidationError = (str) => {
@@ -92,9 +93,9 @@ const SignUp = () => {
 
                     {/*NAME INPUT*/}
                     <motion.div className='flex flex-col mt-[5%] min-w-[100%]' {...slideAnimation('left',0.2)}>
-                        <p className='font-serif m-[1%]  text-xl'>Name :</p>
+                        <p className='m-[1%]  text-md'>Name</p>
                         <input
-                            className='border rounded-lg h-[50px] pl-[4%] border-indigo-500'
+                            className='rounded-lg h-[50px] pl-[4%] bg-neutral-600 outline-none'
                             type="name"
                             name="name"
                             onChange={handleChange}
@@ -107,9 +108,9 @@ const SignUp = () => {
 
                     {/*EMAIL INPUT*/}
                     <motion.div className='flex flex-col my-[5%] min-w-[100%]' {...slideAnimation('left',0.3)}>
-                        <p className='font-serif m-[1%]  text-xl'>Email Address :</p>
+                        <p className='m-[1%]  text-md'>Email</p>
                         <input
-                            className='border rounded-lg h-[50px] pl-[4%] border-indigo-500'
+                            className='rounded-lg h-[50px] pl-[4%] bg-neutral-600 outline-none'
                             type="email"
                             name="email"
                             onChange={handleChange}
@@ -122,10 +123,10 @@ const SignUp = () => {
 
                     {/*PASSWORD INPUT*/}
                     <motion.div className='flex flex-col mb-[5%] min-w-[45%]' {...slideAnimation('left',0.4)}>
-                        <p className='font-serif m-[1%] text-xl'>Password :</p>
+                        <p className='m-[1%] text-md'>Password</p>
                         <input
-                            className='border rounded-lg h-[50px] pl-[4%] border-indigo-500'
-                            type="password"
+                            className='rounded-lg h-[50px] pl-[4%] bg-neutral-600 outline-none'
+                            type={showPass?'text':'password'}
                             name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -133,14 +134,19 @@ const SignUp = () => {
                             placeholder='Enter your password'
                         />
                         <p className='text-red-500 mx-[1%] text-xs'>{errors.password && touched.password && errors.password}</p>
+                        <div className='flex gap-1 m-1'>
+                            <input type='checkbox' className='' onChange={()=> setShowPass(!showPass)}/>
+                            <label className='text-xs text-gray-400'>show password</label>
+                        </div>
+                        
                     </motion.div>
 
                     {/*CONFIRM PASSWORD INPUT*/}
                     <motion.div className='flex flex-col mb-[5%] min-w-[45%]' {...slideAnimation('right',0.5)}>
-                        <p className='font-serif m-[1%] text-xl'>Confirm Password :</p>
+                        <p className='m-[1%] text-md'>Confirm Password</p>
                         <input
-                            className='border rounded-lg h-[50px] pl-[4%] border-indigo-500'
-                            type="Password"
+                            className='rounded-lg h-[50px] pl-[4%] bg-neutral-600 outline-none'
+                            type={showPass?'text':'password'}
                             name="confirmPassword"
                             onChange={handleChange}
                             onBlur={handleBlur}

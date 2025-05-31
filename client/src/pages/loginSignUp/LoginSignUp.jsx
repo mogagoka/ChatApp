@@ -22,11 +22,11 @@ const LoginSignUp = () => {
   return (
 
     // LOGIN SIGNUP SCREEN //
-    <div className={`flex mx-auto bg-[#232D3F] text-blue-500 h-screen`}>
+    <div className={`flex mx-auto  h-screen bg-neutral-900 text-white`}>
 
         {/* LOGIN SIGNUP FORM AREA */}
         <div 
-            className='mx-auto min-w-[100%] lg:min-w-[40%] px-[3%] py-[2%] md:py-[6%]'
+            className='mx-auto min-w-[100%] lg:min-w-[40%] px-[3%] py-20'
             >
 
           {/* HEADING BRAND AND NAME */}
@@ -37,7 +37,7 @@ const LoginSignUp = () => {
                 className='w-[15%] mr-[2%]  flex md:hidden'
                 />
               <h1 className={`text-6xl  font-serif ${gradient} bg-clip-text  text-transparent`}>Chat App</h1>
-              <p className='text-xs ml-[2%] text-sky-300'>By Shubhat Rashid .</p>
+              <p className='text-xs ml-[2%] text-gray-400 '>Conversation made fun...</p>
           </motion.div>
           
           {/* FORM AREA */}
@@ -48,14 +48,14 @@ const LoginSignUp = () => {
               <motion.button 
                 {...slideAnimation('left',0.1)}
                 onClick={handleClickLogin} 
-                className={`mx-auto border rounded-lg border-indigo-500 w-[150px] border hover:bg-emerald-200 hover:text-lg ${value==="Login" && "bg-emerald-100"}`}
+                className={`mx-auto rounded-lg w-[150px]  border hover:text-lg ${value==="Login" && "bg-black text-white"}`}
                 >
                   Login
                 </motion.button>
               <motion.button 
                 {...slideAnimation('right',0.1)}
                 onClick={handleClickSignUp} 
-                className={`mx-auto border rounded-lg border-indigo-500 w-[150px] border hover:bg-emerald-200 hover:text-lg ${value==="SignUp" && "bg-emerald-100"}`}
+                className={`mx-auto border rounded-lg  w-[150px] border hover:text-lg ${value==="SignUp" && "bg-black text-white"}`}
                 >
                   SignUp
                 </motion.button>
